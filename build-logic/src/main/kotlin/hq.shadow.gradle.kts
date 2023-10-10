@@ -5,9 +5,9 @@ plugins {
 
 tasks.shadowJar {
     archiveBaseName.set(project.rootProject.name)
-    archiveVersion.set("")
+    archiveVersion.set(project.rootProject.version.toString())
     archiveClassifier.set("")
-    destinationDirectory.set(file(rootProject.projectDir.path + "/build_outputs"))
+    destinationDirectory.set(file("D:\\서버\\1.20.1 - 번지\\로비1\\plugins"))
 }
 
 configurations.runtimeClasspath.get().apply {
