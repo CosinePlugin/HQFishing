@@ -1,0 +1,63 @@
+hook:
+  # 찌를 던지고 기다리는 시간
+  wait-time:
+    min: 2
+    max: 4
+
+  bite:
+    # 물고기가 찌를 물 확률
+    chance: 30
+    # 최대 입질 도달 시 물고기를 확정으로 낚음
+    max: 5
+    # 찌가 내려가는 힘
+    press-power:
+      # 입질일 때
+      fake: 0.25
+      # 물었을 때
+      real: 0.7
+    # 입질 하는 시간에 대한 확률 (틱: 확률)
+    tick-chance:
+      '3': 0.00001
+      '5': 0.001
+      '8': 0.1
+      '10': 10.0
+      '11': 20.0
+      '15': 50.0
+      '20': 80.0
+
+# 알림
+announce:
+  # 입질
+  fake-bite:
+    sound:
+      enabled: true
+      name: 'minecraft:entity.generic.eat'
+      volume: 0.6
+      pitch: 1.7
+    announce: '&6&l[?]'
+  # 물었을 때
+  real-bite:
+    sound:
+      enabled: true
+      name: 'minecraft:entity.generic.eat'
+      volume: 0.6
+      pitch: 0.7
+    announce: '&c&l[!]'
+  # 낚았을 때
+  successful:
+    sound:
+      enabled: true
+      name: 'minecraft:entity.player.levelup'
+      volume: 1
+      pitch: 2
+    announce:
+      chat:
+        enabled: false
+        text: '%fish%를 얻었다!'
+      title:
+        enabled: true
+        title: '&c&l[ ! ]'
+        sub-title: '%fish%를 얻었다!'
+        fade-in: 5
+        duration: 20
+        fade-out: 5
