@@ -11,6 +11,8 @@ class FishRegistry {
 
     fun findByKey(key: String): Fish? = fishMap[key]
 
+    fun getMap(): Map<String, Fish> = fishMap
+
     fun getCatchableFishes(hook: FishHook, tick: Long): Map<Fish, Double> {
         return fishMap.values.filter { it.isCatchable(hook, tick) }.associateWith { it.chance }
     }
