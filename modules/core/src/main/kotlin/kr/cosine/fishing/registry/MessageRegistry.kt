@@ -9,9 +9,11 @@ class MessageRegistry {
 
     private val messageMap = mutableMapOf<AnnounceType, FishingAnnounce>()
 
-    operator fun get(announceType: AnnounceType): FishingAnnounce? = messageMap[announceType]
+    fun get(announceType: AnnounceType): FishingAnnounce {
+        return messageMap[announceType] ?: throw IllegalArgumentException("${announceType}이(가) 등록되어 있지 않습니다.")
+    }
 
-    operator fun set(announceType: AnnounceType, fishingAnnounce: FishingAnnounce) {
+    fun set(announceType: AnnounceType, fishingAnnounce: FishingAnnounce) {
         messageMap[announceType] = fishingAnnounce
     }
 

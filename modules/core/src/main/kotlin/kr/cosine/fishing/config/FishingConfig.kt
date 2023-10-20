@@ -64,7 +64,7 @@ class FishingConfig(
             hookRegistry.setMaxBite(maxBite)
             hookRegistry.setPressPower(pressPower)
             tickChanceSection.getKeys(false).forEach { tickText ->
-                val tick = tickText.toIntOrNull() ?: run {
+                val tick = tickText.toLongOrNull() ?: run {
                     logger.warning("$hookSectionKey.$biteSectionKey.$tickChanceSectionKey 섹션에 ${tickText}은(는) 양의 정수가 아닙니다.")
                     return@forEach
                 }
@@ -90,8 +90,8 @@ class FishingConfig(
             }
             val fakeBiteAnnounce = getFishingAnnounce("fake-bite") ?: return
             val realBiteAnnounce = getFishingAnnounce("real-bite") ?: return
-            messageRegistry[AnnounceType.FAKE_BITE] = fakeBiteAnnounce
-            messageRegistry[AnnounceType.REAL_BITE] = realBiteAnnounce
+            messageRegistry.set(AnnounceType.FAKE_BITE, fakeBiteAnnounce)
+            messageRegistry.set(AnnounceType.REAL_BITE, realBiteAnnounce)
             val successfulSectionKey = "successful"
             getConfigurationSection(successfulSectionKey)?.apply {
                 val shortSuccessfulSectionKey = "$messageSectionKey.$successfulSectionKey"
@@ -130,7 +130,7 @@ class FishingConfig(
                     FishingTitle(enabled, title, subTitle, fadeIn, duration, fadeOut)
                 }
                 val fishingAnnounce = FishingAnnounce(fishingSound, fishingChat, fishingTitle)
-                messageRegistry[AnnounceType.SUCCESSFUL] = fishingAnnounce
+                messageRegistry.set(AnnounceType.SUCCESSFUL, fishingAnnounce)
             }
         }
     }

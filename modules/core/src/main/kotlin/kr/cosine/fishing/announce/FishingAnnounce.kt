@@ -8,6 +8,8 @@ data class FishingAnnounce(
     private val title: FishingTitle? = null
 ) {
 
+    val text get() = chat.message
+
     fun playSound(player: Player) {
         fishingSound.playSound(player)
     }
@@ -19,6 +21,4 @@ data class FishingAnnounce(
     fun sendTitle(player: Player, fish: String) {
         title?.sendTitle(player, fish)
     }
-
-    fun getChatMessage(): String = chat.message
 }

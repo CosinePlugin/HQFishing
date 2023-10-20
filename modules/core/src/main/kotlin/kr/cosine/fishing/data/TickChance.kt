@@ -4,11 +4,11 @@ import kr.cosine.fishing.extension.random
 
 class TickChance {
 
-    private val tickChanceMap = mutableMapOf<Int, Double>()
+    private val tickChanceMap = mutableMapOf<Long, Double>()
 
-    fun getTick(): Int = tickChanceMap.random()
+    fun getTick(): Long = tickChanceMap.random()
 
-    fun setTick(tick: Int, chance: Double) {
+    fun setTick(tick: Long, chance: Double) {
         tickChanceMap[tick] = chance
     }
 

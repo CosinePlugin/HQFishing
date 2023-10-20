@@ -40,9 +40,9 @@ class HookRegistry {
         this.pressPower = pressPower
     }
 
-    fun getTick(): Int = tickChance.getTick()
+    fun getTick(): Long = tickChance.getTick()
 
-    fun setTick(tick: Int, chance: Double) {
+    fun setTick(tick: Long, chance: Double) {
         tickChance.setTick(tick, chance)
     }
 
