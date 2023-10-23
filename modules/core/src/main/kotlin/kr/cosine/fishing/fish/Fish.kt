@@ -11,13 +11,17 @@ class Fish(
     private val itemStack: ItemStack
 ) {
 
-    private val biomes = mutableSetOf<Biome>()
+    var biomes = emptyList<Biome>()
+        private set
 
-    private var weather = Weather.ALL
+    var weather = Weather.ALL
+        private set
 
-    private var time = 0..23999
+    var time = 0..23999
+        private set
 
-    private var tick = 30L
+    var tick = 30L
+        private set
 
     var chance = 100.0
         private set
@@ -25,11 +29,11 @@ class Fish(
     var isChanged = false
 
     fun isBiome(biome: Biome): Boolean {
-        return biomes.contains(biome)
+        return biomes.isEmpty() || biomes.contains(biome)
     }
 
     fun setBiomes(biomes: List<Biome>) {
-        this.biomes.addAll(biomes)
+        this.biomes = biomes
         isChanged = true
     }
 
@@ -52,14 +56,17 @@ class Fish(
 
     fun setTime(min: Int, max: Int) {
         time = min..max
+        isChanged = true
     }
 
     fun setTick(tick: Long) {
         this.tick = tick
+        isChanged = true
     }
 
     fun setChance(chance: Double) {
         this.chance = chance
+        isChanged = true
     }
 
     fun isCatchable(hook: FishHook, tick: Long): Boolean {

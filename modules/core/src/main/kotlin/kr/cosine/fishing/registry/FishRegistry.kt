@@ -11,6 +11,10 @@ class FishRegistry {
 
     fun findByKey(key: String): Fish? = fishMap[key]
 
+    fun set(key: String, fish: Fish) {
+        fishMap[key] = fish
+    }
+
     fun getKeys(): List<String> = getMap().keys.toList()
 
     fun getValues(): List<Fish> = getMap().values.toList()
