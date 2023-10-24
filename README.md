@@ -4,9 +4,6 @@
 ## 다운로드
 * 다운로드는 [릴리즈](https://github.com/HQService/HQFishing/releases)에서 가능합니다.
 
-## 제작자
-* Cosine_A
-
 ## 디스코드
 * 모든 문의, 질문, 개발 요청은 [디스코드](https://discord.gg/hUkaca9ZQu)에서 해주시길 바랍니다.
 
