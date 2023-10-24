@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
     compileOnly(libs.paper.api)
-    compileOnly(libs.spigot)
 
     compileOnly(framework.core)
     compileOnly(framework.command)

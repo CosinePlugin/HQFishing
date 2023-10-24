@@ -59,9 +59,4 @@ class FishingAdminCommand(
         fishManagementService.reload()
         player.sendMessage("§aconfig.yml을 리로드하였습니다.")
     }
-
-    @CommandExecutor("테스트")
-    fun test(player: Player) {
-        player.sendMessage("시간: ${player.world.time}")
-    }
 }
