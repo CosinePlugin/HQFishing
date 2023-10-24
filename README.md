@@ -1,6 +1,9 @@
 # 낚시
 물고기가 입질을 하다가 찌를 물었을 때 낚는 간단한 시스템입니다.
 
+## 다운로드
+* 다운로드는 [릴리즈](https://github.com/HQService/HQFishing/releases)에서 가능합니다.
+
 ## 제작자
 * Cosine_A
 
