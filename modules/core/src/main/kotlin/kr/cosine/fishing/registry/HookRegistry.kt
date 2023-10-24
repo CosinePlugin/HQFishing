@@ -8,7 +8,7 @@ import kr.hqservice.framework.global.core.component.Bean
 @Bean
 class HookRegistry {
 
-    private var waitTimeRange = 2..4
+    private var waitTimeRange = 40..80
 
     private var biteChance = 30.0
 

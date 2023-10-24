@@ -5,19 +5,19 @@ import kr.cosine.fishing.enums.AnnounceType
 import kr.hqservice.framework.global.core.component.Bean
 
 @Bean
-class MessageRegistry {
+class AnnounceRegistry {
 
-    private val messageMap = mutableMapOf<AnnounceType, FishingAnnounce>()
+    private val announceMap = mutableMapOf<AnnounceType, FishingAnnounce>()
 
     fun get(announceType: AnnounceType): FishingAnnounce {
-        return messageMap[announceType] ?: throw IllegalArgumentException("${announceType}이(가) 등록되어 있지 않습니다.")
+        return announceMap[announceType] ?: throw IllegalArgumentException("${announceType}이(가) 등록되어 있지 않습니다.")
     }
 
     fun set(announceType: AnnounceType, fishingAnnounce: FishingAnnounce) {
-        messageMap[announceType] = fishingAnnounce
+        announceMap[announceType] = fishingAnnounce
     }
 
     internal fun clear() {
-        messageMap.clear()
+        announceMap.clear()
     }
 }

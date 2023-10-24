@@ -16,7 +16,11 @@ class FishDetailSettingView(
     private val fishSettingViewModel: FishSettingViewModel,
     private val fishSettingView: FishSettingView,
     private val fish: Fish
-) : HQContainer(9, "${fish.getItemStack().getDisplayName()} 세부 설정", true) {
+) : HQContainer(9, "${fish.getItemStack().getDisplayName()} : 세부 설정", true) {
+
+    private companion object {
+        val timeRegex = Regex("^(\\d{1,5})\\s*~\\s*(\\d{1,5})\$")
+    }
 
     private var isPrevented = false
 
@@ -42,14 +46,15 @@ class FishDetailSettingView(
                     val text = texts[0]
                     if (text == "취소") {
                         player.sendMessage("§c설정이 취소되었습니다.")
-                        return@SignEditor true
+
+                    } else {
+                        val chance = texts[0].toDoubleOrNull() ?: run {
+                            player.sendMessage("§c숫자만 입력할 수 있습니다.")
+                            return@SignEditor false
+                        }
+                        fish.setChance(chance)
+                        player.sendMessage("§a개체 수를 ${chance}마리로 설정하였습니다.")
                     }
-                    val chance = texts[0].toDoubleOrNull() ?: run {
-                        player.sendMessage("§c숫자만 입력할 수 있습니다.")
-                        return@SignEditor false
-                    }
-                    fish.setChance(chance)
-                    player.sendMessage("§a개체 수를 ${chance}마리로 설정하였습니다.")
                     fishSettingViewModel.reopen(container, player)
                     return@SignEditor true
                 }.open()
@@ -113,14 +118,14 @@ class FishDetailSettingView(
                     val text = texts[0]
                     if (text == "취소") {
                         player.sendMessage("§c설정이 취소되었습니다.")
-                        return@SignEditor true
+                    } else {
+                        val tick = texts[0].toLongOrNull() ?: run {
+                            player.sendMessage("§c숫자만 입력할 수 있습니다.")
+                            return@SignEditor false
+                        }
+                        fish.setTick(tick)
+                        player.sendMessage("§a물고기가 찌를 물고 있는 시간을 ${tick}틱으로 설정하였습니다.")
                     }
-                    val tick = texts[0].toLongOrNull() ?: run {
-                        player.sendMessage("§c숫자만 입력할 수 있습니다.")
-                        return@SignEditor false
-                    }
-                    fish.setTick(tick)
-                    player.sendMessage("§a물고기가 찌를 물고 있는 시간을 ${tick}틱으로 설정하였습니다.")
                     fishSettingViewModel.reopen(container, player)
                     return@SignEditor true
                 }.open()
@@ -145,18 +150,30 @@ class FishDetailSettingView(
                 isPrevented = true
 
                 player.closeInventory()
-                SignEditor(player, arrayOf("", "시간을 입력해주세요.", "형식: 0~100", "'취소' - 입력 시 창 닫기")) { texts ->
+                SignEditor(player, arrayOf("", "시간을 입력해주세요.", "형식: 0~23999", "'취소' - 입력 시 창 닫기")) { texts ->
                     val text = texts[0]
                     if (text == "취소") {
                         player.sendMessage("§c설정이 취소되었습니다.")
-                        return@SignEditor true
+                    } else {
+                        val matchResult = timeRegex.find(text)
+                        if (matchResult == null) {
+                            player.sendMessage("§c형식이 올바르지 않습니다.")
+                            return@SignEditor false
+                        }
+                        val (start, end) = matchResult.destructured
+                        val firstTime = start.toInt()
+                        val lastTime = end.toInt()
+                        if (lastTime < firstTime) {
+                            player.sendMessage("§c처음 시간이 마지막 시간보다 클 수 없습니다.")
+                            return@SignEditor false
+                        }
+                        if (firstTime > 23999 || lastTime > 23999) {
+                            player.sendMessage("§c최대로 입력할 수 있는 값은 23999입니다.")
+                            return@SignEditor false
+                        }
+                        fish.setTime(firstTime, lastTime)
+                        player.sendMessage("§a물고기가 잡히는 시간대를 $firstTime~$lastTime(으)로 설정하였습니다.")
                     }
-                    val tick = texts[0].toLongOrNull() ?: run {
-                        player.sendMessage("§c숫자만 입력할 수 있습니다.")
-                        return@SignEditor false
-                    }
-                    fish.setTick(tick)
-                    player.sendMessage("§a물고기가 잡히는 시간대를 ${tick}(으)로 설정하였습니다.")
                     fishSettingViewModel.reopen(container, player)
                     return@SignEditor true
                 }.open()

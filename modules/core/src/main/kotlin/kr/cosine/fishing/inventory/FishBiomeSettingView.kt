@@ -16,7 +16,7 @@ class FishBiomeSettingView(
     private val fishDetailSettingView: FishDetailSettingView,
     private val fish: Fish,
     override var page: Int = 0
-) : FishPageContainer<Biome>(54, "${fish.getItemStack().getDisplayName()} 바이옴 설정", true) {
+) : FishPageContainer<Biome>(54, "${fish.getItemStack().getDisplayName()} : 바이옴 설정", true) {
 
     private companion object {
         val air = ItemStack(Material.AIR)

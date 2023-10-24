@@ -1,18 +1,22 @@
 package kr.cosine.fishing.service
 
+import kotlinx.coroutines.delay
 import kr.cosine.fishing.enums.AnnounceType
 import kr.cosine.fishing.extension.random
 import kr.cosine.fishing.extension.runTaskLater
 import kr.cosine.fishing.registry.FishRegistry
 import kr.cosine.fishing.registry.HookRegistry
-import kr.cosine.fishing.registry.MessageRegistry
+import kr.cosine.fishing.registry.AnnounceRegistry
 import kr.cosine.fishing.registry.TickRegistry
 import kr.hqservice.framework.bukkit.core.HQBukkitPlugin
+import kr.hqservice.framework.bukkit.core.coroutine.bukkitDelay
 import kr.hqservice.framework.global.core.component.Service
 import kr.hqservice.framework.nms.extension.getDisplayName
+import kr.hqservice.framework.nms.extension.virtual
 import kr.hqservice.framework.nms.virtual.entity.VirtualArmorStand
 import org.bukkit.Location
 import org.bukkit.entity.FishHook
+import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.util.Vector
 import java.util.UUID
@@ -20,7 +24,7 @@ import java.util.UUID
 @Service
 class FishingService(
     private val plugin: HQBukkitPlugin,
-    private val messageRegistry: MessageRegistry,
+    private val announceRegistry: AnnounceRegistry,
     private val hookRegistry: HookRegistry,
     private val fishRegistry: FishRegistry,
     private val tickRegistry: TickRegistry
@@ -29,11 +33,12 @@ class FishingService(
     private val biteCountMap = mutableMapOf<UUID, Int>()
 
     fun onFishing(event: PlayerFishEvent) {
+        event.hook.waitTime = hookRegistry.getWaitTime()
         when (event.state) {
             PlayerFishEvent.State.REEL_IN -> reelIn(event)
             PlayerFishEvent.State.FISHING -> fishing(event)
             PlayerFishEvent.State.BITE -> bite(event)
-            else -> event.hook.waitTime = hookRegistry.getWaitTime()
+            else -> {}
         }
     }
 
@@ -49,7 +54,7 @@ class FishingService(
                 val fish = fishMap.random()
                 val fishItemStack = fish.getItemStack()
                 val fishName = fishItemStack.getDisplayName()
-                messageRegistry.get(AnnounceType.SUCCESSFUL).apply {
+                announceRegistry.get(AnnounceType.SUCCESSFUL).apply {
                     sendTitle(player, fishName)
                     sendMessage(player, fishName)
                     playSound(player)
@@ -81,17 +86,17 @@ class FishingService(
         val pressPower = hookRegistry.pressPower
 
         if (biteCount >= hookRegistry.maxBite || hookRegistry.isBiteChance()) {
-            val realBiteAnnounce = messageRegistry.get(AnnounceType.REAL_BITE)
+            val realBiteAnnounce = announceRegistry.get(AnnounceType.REAL_BITE)
             biteCountMap.remove(playerUniqueId)
             tickRegistry.set(playerUniqueId, randomTick)
             hook.pressDown(pressPower.real)
-            hookLocation.showText(realBiteAnnounce.text, randomTick)
+            player.showText(hookLocation, realBiteAnnounce.text, randomTick)
             realBiteAnnounce.playSound(player)
         } else {
-            val fakeBiteAnnounce = messageRegistry.get(AnnounceType.FAKE_BITE)
+            val fakeBiteAnnounce = announceRegistry.get(AnnounceType.FAKE_BITE)
             biteCountMap[playerUniqueId] = biteCount + 1
             hook.pressDown(pressPower.fake)
-            hookLocation.showText(fakeBiteAnnounce.text, randomTick)
+            player.showText(hookLocation, fakeBiteAnnounce.text, randomTick)
             fakeBiteAnnounce.playSound(player)
         }
     }
@@ -100,14 +105,20 @@ class FishingService(
         velocity = Vector(0, -1, 0).normalize().multiply(power)
     }
 
-    private fun Location.showText(text: String, tick: Long) {
-        val virtualArmorStand = VirtualArmorStand(this, text) {
-            setInvisible(true)
-            setSmall(true)
-            setNameVisible(true)
-        }
-        plugin.runTaskLater(tick) {
+    fun initVirtual(player: Player) {
+        player.showText(player.location, "", 1)
+    }
+
+    private fun Player.showText(location: Location, text: String, tick: Long) {
+        virtual {
+            val virtualArmorStand = VirtualArmorStand(location, text) {
+                setInvisible(true)
+                setSmall(true)
+            }
+            updateEntity(virtualArmorStand)
+            bukkitDelay(tick)
             virtualArmorStand.destroy()
+            updateEntity(virtualArmorStand)
         }
     }
 }

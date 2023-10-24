@@ -11,4 +11,6 @@ dependencies {
     compileOnly(framework.nms)
 
     compileOnly(project(":modules:api"))
+
+    testImplementation(kotlin("test"))
 }
