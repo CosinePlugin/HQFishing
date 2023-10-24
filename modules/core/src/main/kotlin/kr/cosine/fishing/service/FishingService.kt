@@ -11,11 +11,11 @@ import kr.hqservice.framework.bukkit.core.coroutine.bukkitDelay
 import kr.hqservice.framework.global.core.component.Service
 import kr.hqservice.framework.nms.extension.getDisplayName
 import kr.hqservice.framework.nms.extension.virtual
-import kr.hqservice.framework.nms.service.entity.NmsArmorStandService
 import kr.hqservice.framework.nms.virtual.entity.VirtualArmorStand
-import net.minecraft.world.entity.decoration.EntityArmorStand
 import org.bukkit.Location
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.FishHook
+import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.util.Vector
@@ -24,7 +24,6 @@ import java.util.UUID
 @Service
 class FishingService(
     private val plugin: HQBukkitPlugin,
-    private val nmsArmorStandService: NmsArmorStandService,
     private val announceRegistry: AnnounceRegistry,
     private val hookRegistry: HookRegistry,
     private val fishRegistry: FishRegistry,
@@ -114,10 +113,10 @@ class FishingService(
         virtual {
             val newLocation = location.clone().add(0.0, 0.5, 0.0)
             val virtualArmorStand = VirtualArmorStand(newLocation, text) {
+                setMarker(true)
                 setInvisible(true)
                 setSmall(true)
             }
-            (virtualArmorStand.getEntity() as EntityArmorStand).u(true)
             updateEntity(virtualArmorStand)
             bukkitDelay(tick)
             virtualArmorStand.destroy()

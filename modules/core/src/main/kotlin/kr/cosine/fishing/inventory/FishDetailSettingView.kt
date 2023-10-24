@@ -1,5 +1,6 @@
 package kr.cosine.fishing.inventory
 
+import kr.cosine.fishing.extension.removeColor
 import kr.cosine.fishing.fish.Fish
 import kr.cosine.fishing.inventory.FishSettingViewModel.Companion.setClickFunctionOnlyLeftClick
 import kr.cosine.fishing.util.SignEditor
@@ -16,7 +17,7 @@ class FishDetailSettingView(
     private val fishSettingViewModel: FishSettingViewModel,
     private val fishSettingView: FishSettingView,
     private val fish: Fish
-) : HQContainer(9, "${fish.getItemStack().getDisplayName()} : 세부 설정", true) {
+) : HQContainer(9, "${fish.getItemStack().getDisplayName().removeColor()} : 세부 설정", true) {
 
     private companion object {
         val timeRegex = Regex("^(\\d{1,5})\\s*~\\s*(\\d{1,5})\$")

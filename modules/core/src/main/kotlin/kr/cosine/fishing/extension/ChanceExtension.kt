@@ -5,7 +5,7 @@ import kotlin.random.Random
 
 private val random: Random by lazy { Random }
 
-fun Double.chance(): Boolean {
+internal fun Double.chance(): Boolean {
     return if (this >= 100.0) true
     else if (this <= 0.0) false
     else {
@@ -15,9 +15,9 @@ fun Double.chance(): Boolean {
     }
 }
 
-fun Int.chance(): Boolean = toDouble().chance()
+internal fun Int.chance(): Boolean = toDouble().chance()
 
-fun <T> Map<T, Double>.random(): T {
+internal fun <T> Map<T, Double>.random(): T {
     val entry = entries.minByOrNull { -ln(random.nextDouble()) / it.value }
     return entry?.key ?: throw IllegalArgumentException()
 }

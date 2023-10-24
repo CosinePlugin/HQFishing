@@ -11,7 +11,8 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
-        maven("https://maven.hqservice.kr/repository/maven-public")
+        mavenCentral()
+        // maven("https://maven.hqservice.kr/repository/maven-public")
         maven("https://repo.papermc.io/repository/maven-public/")
         mavenLocal()
     }
