@@ -13,11 +13,12 @@ dependencyResolutionManagement {
     repositories {
         maven("https://maven.hqservice.kr/repository/maven-public")
         maven("https://repo.papermc.io/repository/maven-public/")
+        mavenLocal()
     }
 
     versionCatalogs {
         create("libs") {
-            library("spigot-api", "org.spigotmc:spigot-api:${getProperty("spigotVersion")}")
+            library("spigot", "org.spigotmc:spigot:${getProperty("spigotVersion")}")
             library("paper-api", "io.papermc.paper:paper-api:${getProperty("spigotVersion")}")
 
         }

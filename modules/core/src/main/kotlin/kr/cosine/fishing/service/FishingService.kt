@@ -1,9 +1,7 @@
 package kr.cosine.fishing.service
 
-import kotlinx.coroutines.delay
 import kr.cosine.fishing.enums.AnnounceType
 import kr.cosine.fishing.extension.random
-import kr.cosine.fishing.extension.runTaskLater
 import kr.cosine.fishing.registry.FishRegistry
 import kr.cosine.fishing.registry.HookRegistry
 import kr.cosine.fishing.registry.AnnounceRegistry
@@ -13,7 +11,9 @@ import kr.hqservice.framework.bukkit.core.coroutine.bukkitDelay
 import kr.hqservice.framework.global.core.component.Service
 import kr.hqservice.framework.nms.extension.getDisplayName
 import kr.hqservice.framework.nms.extension.virtual
+import kr.hqservice.framework.nms.service.entity.NmsArmorStandService
 import kr.hqservice.framework.nms.virtual.entity.VirtualArmorStand
+import net.minecraft.world.entity.decoration.EntityArmorStand
 import org.bukkit.Location
 import org.bukkit.entity.FishHook
 import org.bukkit.entity.Player
@@ -24,6 +24,7 @@ import java.util.UUID
 @Service
 class FishingService(
     private val plugin: HQBukkitPlugin,
+    private val nmsArmorStandService: NmsArmorStandService,
     private val announceRegistry: AnnounceRegistry,
     private val hookRegistry: HookRegistry,
     private val fishRegistry: FishRegistry,
@@ -111,10 +112,12 @@ class FishingService(
 
     private fun Player.showText(location: Location, text: String, tick: Long) {
         virtual {
-            val virtualArmorStand = VirtualArmorStand(location, text) {
+            val newLocation = location.clone().add(0.0, 0.5, 0.0)
+            val virtualArmorStand = VirtualArmorStand(newLocation, text) {
                 setInvisible(true)
                 setSmall(true)
             }
+            (virtualArmorStand.getEntity() as EntityArmorStand).u(true)
             updateEntity(virtualArmorStand)
             bukkitDelay(tick)
             virtualArmorStand.destroy()
