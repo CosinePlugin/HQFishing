@@ -11,29 +11,25 @@ class Fish(
     private val itemStack: ItemStack
 ) {
 
-    var biomes = emptyList<Biome>()
+    var chance = 100.0
         private set
 
     var weather = Weather.ALL
         private set
 
-    var time = 0..23999
+    var biomes = emptyList<Biome>()
         private set
 
     var tick = 30L
         private set
 
-    var chance = 100.0
+    var time = 0..23999
         private set
 
     var isChanged = false
 
-    fun isBiome(biome: Biome): Boolean {
-        return biomes.isEmpty() || biomes.contains(biome)
-    }
-
-    fun setBiomes(biomes: List<Biome>) {
-        this.biomes = biomes
+    fun setChance(chance: Double) {
+        this.chance = chance
         isChanged = true
     }
 
@@ -50,12 +46,16 @@ class Fish(
         isChanged = true
     }
 
-    fun isTime(world: World): Boolean {
-        return time.contains(world.time)
+    fun setWeather(weather: Weather) {
+        this.weather = weather
     }
 
-    fun setTime(min: Int, max: Int) {
-        time = min..max
+    fun isBiome(biome: Biome): Boolean {
+        return biomes.isEmpty() || biomes.contains(biome)
+    }
+
+    fun setBiomes(biomes: List<Biome>) {
+        this.biomes = biomes
         isChanged = true
     }
 
@@ -64,15 +64,19 @@ class Fish(
         isChanged = true
     }
 
-    fun setChance(chance: Double) {
-        this.chance = chance
+    private fun isTime(world: World): Boolean {
+        return time.contains(world.time)
+    }
+
+    fun setTime(min: Int, max: Int) {
+        time = min..max
         isChanged = true
     }
 
     fun isCatchable(hook: FishHook, tick: Long): Boolean {
         val world = hook.world
         val biome = hook.location.block.biome
-        return isWeather(world) && isTime(world) && isBiome(biome) && this.tick >= tick
+        return isWeather(world) && isTime(world) && isBiome(biome) && this.tick >= tick // 설정된 값이 현재 틱보다 높아야 잡힘
     }
 
     fun getItemStack(): ItemStack = itemStack.clone()

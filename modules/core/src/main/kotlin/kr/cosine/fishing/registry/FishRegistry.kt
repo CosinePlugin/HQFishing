@@ -9,6 +9,8 @@ class FishRegistry {
 
     private val fishMap = mutableMapOf<String, Fish>()
 
+    fun contains(key: String): Boolean = fishMap.containsKey(key)
+
     fun findByKey(key: String): Fish? = fishMap[key]
 
     fun set(key: String, fish: Fish) {
@@ -20,6 +22,10 @@ class FishRegistry {
     fun getValues(): List<Fish> = getMap().values.toList()
 
     fun getMap(): Map<String, Fish> = fishMap
+
+    fun remove(key: String) {
+        fishMap.remove(key)
+    }
 
     fun getCatchableFishes(hook: FishHook, tick: Long): Map<Fish, Double> {
         return fishMap.values.filter { it.isCatchable(hook, tick) }.associateWith { it.chance }
