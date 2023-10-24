@@ -24,7 +24,7 @@ class FishingAdminCommand(
             return
         }
         if (isSuccess) {
-            player.sendMessage("§a§l[ $key ] §a키를 등록하였습니다.")
+            player.sendMessage("§a§l$key§a(을)를 등록하였습니다.")
         } else {
             player.sendMessage("§c손에 아이템을 들어주세요.")
         }
@@ -37,7 +37,7 @@ class FishingAdminCommand(
     ) {
         val key = keyArgument.key
         if (fishManagementService.deleteFish(key)) {
-            player.sendMessage("§a§l[ $key ] §a키를 제거하였습니다.")
+            player.sendMessage("§a§l$key§a(을)를 제거하였습니다.")
         } else {
             player.sendMessage("§c존재하지 않는 key입니다.")
         }

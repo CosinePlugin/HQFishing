@@ -20,7 +20,7 @@ class FishConfig(
 
     fun load() {
         fishFolder.listFiles()?.forEach { file ->
-            val key = file.name.removePrefix(".yml")
+            val key = file.name.removeSuffix(".yml")
             val config = YamlConfiguration.loadConfiguration(file)
 
             val itemStack = config.getItemStack("item")!!
