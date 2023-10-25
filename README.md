@@ -10,7 +10,7 @@
 ## 필요한 플러그인
 *  [HQFramework](https://github.com/HQService/HQFramework)
 
-## 작동 버전
+## 버전
 * 1.17~1.20.2
 
 ## 관리자 명령어
