@@ -11,7 +11,7 @@ data class FishingSound(
 
     fun playSound(player: Player) {
         if (enabled) {
-            player.playSound(player, sound, volume, pitch)
+            player.playSound(player.location, sound, volume, pitch)
         }
     }
 }
