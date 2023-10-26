@@ -5,18 +5,10 @@ plugins {
 dependencies {
     compileOnly(libs.paper.api)
 
-    compileOnly(framework.core) {
-        exclude("org.spigotmc", "spigot-api")
-    }
-    compileOnly(framework.command) {
-        exclude("org.spigotmc", "spigot-api")
-    }
-    compileOnly(framework.inventory) {
-        exclude("org.spigotmc", "spigot-api")
-    }
-    compileOnly(framework.nms) {
-        exclude("org.spigotmc", "spigot-api")
-    }
+    compileOnly(framework.core)
+    compileOnly(framework.command)
+    compileOnly(framework.inventory)
+    compileOnly(framework.nms)
 
     compileOnly(project(":modules:api"))
 

@@ -4,8 +4,6 @@ plugins {
 }
 
 dependencies {
-    compileOnly(libs.spigot.api)
-    compileOnly(framework.core) {
-        exclude("org.spigotmc", "spigot-api")
-    }
+    compileOnly(libs.paper.api)
+    compileOnly(framework.core)
 }
