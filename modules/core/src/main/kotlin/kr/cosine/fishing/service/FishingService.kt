@@ -6,16 +6,13 @@ import kr.cosine.fishing.registry.FishRegistry
 import kr.cosine.fishing.registry.HookRegistry
 import kr.cosine.fishing.registry.AnnounceRegistry
 import kr.cosine.fishing.registry.TickRegistry
-import kr.hqservice.framework.bukkit.core.HQBukkitPlugin
 import kr.hqservice.framework.bukkit.core.coroutine.bukkitDelay
 import kr.hqservice.framework.global.core.component.Service
 import kr.hqservice.framework.nms.extension.getDisplayName
 import kr.hqservice.framework.nms.extension.virtual
 import kr.hqservice.framework.nms.virtual.entity.VirtualArmorStand
 import org.bukkit.Location
-import org.bukkit.entity.EntityType
 import org.bukkit.entity.FishHook
-import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.util.Vector
@@ -23,7 +20,6 @@ import java.util.UUID
 
 @Service
 class FishingService(
-    private val plugin: HQBukkitPlugin,
     private val announceRegistry: AnnounceRegistry,
     private val hookRegistry: HookRegistry,
     private val fishRegistry: FishRegistry,
@@ -103,10 +99,6 @@ class FishingService(
 
     private fun FishHook.pressDown(power: Double) {
         velocity = Vector(0, -1, 0).normalize().multiply(power)
-    }
-
-    fun initVirtual(player: Player) {
-        player.showText(player.location, "", 1)
     }
 
     private fun Player.showText(location: Location, text: String, tick: Long) {
