@@ -11,7 +11,7 @@
 *  [HQFramework](https://github.com/HQService/HQFramework)
 
 ## 버전
-* 1.19~1.20.2
+* 1.18~1.20.2
 
 ## 관리자 명령어
 * /낚시관리
