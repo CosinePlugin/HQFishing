@@ -1,6 +1,7 @@
 package kr.cosine.fishing.service
 
 import kr.cosine.fishing.enums.AnnounceType
+import kr.cosine.fishing.event.HQFishingEvent
 import kr.cosine.fishing.extension.random
 import kr.cosine.fishing.registry.FishRegistry
 import kr.cosine.fishing.registry.HookRegistry
@@ -15,11 +16,13 @@ import org.bukkit.Location
 import org.bukkit.entity.FishHook
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerFishEvent
+import org.bukkit.plugin.PluginManager
 import org.bukkit.util.Vector
 import java.util.UUID
 
 @Service
 class FishingService(
+    private val pluginManager: PluginManager,
     private val announceRegistry: AnnounceRegistry,
     private val hookRegistry: HookRegistry,
     private val fishRegistry: FishRegistry,
@@ -56,6 +59,8 @@ class FishingService(
                     playSound(player)
                 }
                 player.inventory.addItem(fishItemStack)
+                val hqFishingEvent = HQFishingEvent(player, fishItemStack)
+                pluginManager.callEvent(hqFishingEvent)
             }
             tickRegistry.remove(playerUniqueId)
         }

@@ -8,7 +8,8 @@ bukkitResourceGenerator {
     val pluginName = extra["projectName"].toString()
     main = "${extra["projectGroup"]}.$pluginName"
     name = pluginName
-    apiVersion = "1.18"
+    version = "1.0.1"
+    apiVersion = "1.17"
     depend = listOf("HQFramework")
     libraries = excludedRuntimeDependencies()
 }
