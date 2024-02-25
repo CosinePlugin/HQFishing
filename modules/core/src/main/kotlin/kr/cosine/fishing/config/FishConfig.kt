@@ -26,7 +26,7 @@ class FishConfig(
             val itemStack = config.getItemStack("item")!!
             val chance = config.getDouble("chance")
             val weather = Weather.valueOf(config.getString("weather") ?: "ALL")
-            val biomes = config.getStringList("biome").map { Biome.valueOf(it) }
+            val biomes = config.getStringList("biomes").map { Biome.valueOf(it) }
             val tick = config.getLong("tick")
             val minTime = config.getInt("time.min")
             val maxTime = config.getInt("time.max")
